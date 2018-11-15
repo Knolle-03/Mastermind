@@ -9,7 +9,7 @@ require_relative 'ui'
 class AIPlayer
 
 
-  def generate_code
+  def generate_code()
 
   end
 end

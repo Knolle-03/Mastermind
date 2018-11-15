@@ -9,7 +9,7 @@ require_relative 'ui'
 class HumanPlayer
 
 
-  def generate_code
+  def generate_code(valid_values, expected_length)
 
   end
 end

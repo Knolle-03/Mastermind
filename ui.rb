@@ -9,8 +9,18 @@ class UI
   # Greets the player and asks if the computer or a player takes the role of
   # mastermind and codebreaker.
   def self.get_players
-    puts ''
-    return [maker, breaker]
+    players = []
+    puts 'Choose Codemaker: [H]uman [C]omputer'
+    loop players[0] = gets.chomp.downcase do
+      break if players[0] = 'h' || 'c'
+      puts 'Invalid option.'
+    end
+    puts 'Choose Codebreaker: [H]uman [C]omputer'
+    loop players[1] = gets.chomp.downcase do
+      break if players[1] = 'h' || 'c'
+      puts 'Invalid option.'
+    end
+    players
   end
 
   # Asks Player to choose a specified amount of symbols from a given range of
