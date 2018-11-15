@@ -11,10 +11,10 @@ require_relative 'ai_player'
 class Game
   TRIES = 10
   CODE_LENGTH = 4
-  DEFAULT_SYMBOLS = [1, 2, 3, 4, 5, 6].freeze
+  DEFAULT_SYMBOLS = %w[1 2 3 4 5 6].freeze
 
   def initialize
-    @valid_values = DEFAULT_SYMBOLS * CODE_LENGTH
+    @valid_values = DEFAULT_SYMBOLS
     @code = nil
     @code_maker = nil
     @code_breaker = nil

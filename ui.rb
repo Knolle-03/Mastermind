@@ -7,18 +7,22 @@
 class UI
 
   # Greets the player and asks if the computer or a player takes the role of
-  # mastermind and codebreaker.
+  # mastermind and codebreaker. Loops input until valid option is chosen.
   def self.get_players
     players = []
     puts 'Choose Codemaker: [H]uman [C]omputer'
-    loop players[0] = gets.chomp.downcase do
-      break if players[0] = 'h' || 'c'
-      puts 'Invalid option.'
+    loop do
+      players[0] = gets.chomp.downcase
+      break if players[0] == 'h' || players[0] == 'c'
+
+      puts 'Invalid option. Choose [H]uman or [C]omputer'
     end
     puts 'Choose Codebreaker: [H]uman [C]omputer'
-    loop players[1] = gets.chomp.downcase do
-      break if players[1] = 'h' || 'c'
-      puts 'Invalid option.'
+    loop do
+      players[1] = gets.chomp.downcase
+      break if players[1] == 'h' || players[1] == 'c'
+
+      puts 'Invalid option. [H]uman or [C]omputer'
     end
     players
   end
@@ -26,15 +30,21 @@ class UI
   # Asks Player to choose a specified amount of symbols from a given range of
   # values.
   def self.get_code_array(valid_values_ary, expected_length)
-    puts ''
-    # line.split(/=|;/) bla bla
-    return []
+    puts 'Generate a new code:'
+    puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
+    puts 'You may choose any of them more than once.'
+    gets.strip.split(/\s+|,\s*/)
   end
 
   # Asks player for a choice of values from an array and of a certain length.
   def self.get_guess(valid_values_ary, expected_length)
-    puts ''
-    return []
+    puts 'Guess the code:'
+    puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
+    puts 'Any of them may appear more than once. Press [H] for hint. (Disabled)'
+    loop do
+      input = gets
+      if input.strip.downcase == 'h'
+      gets.strip.split(/\s+|,\s*/)
   end
 
   # Displays how many black and white hits were achieved in the last guessing
@@ -44,12 +54,13 @@ class UI
   end
 
   # Informs the player that a wrong number of arguments/input values was found.
-  def self.display_wrong_length
-    puts ''
+  def self.display_wrong_length(expected_length, actual_length)
+    puts "Wrong number of values. Expected #{expected_length}, but found #{actual_length}."
   end
 
   # Informs the player which input values were not valid.
+  # false_values - array of any Strings to be displayed
   def self.display_wrong_symbols(false_values)
-    puts ''
+    puts "Wrong values chosen. #{false_values.join(', ')} are not valid symbols."
   end
 end
