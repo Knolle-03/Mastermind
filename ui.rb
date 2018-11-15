@@ -27,7 +27,7 @@ class UI
   # values.
   def self.get_code_array(valid_values_ary, expected_length)
     puts ''
-    # line.split(/=|;/)
+    # line.split(/=|;/) bla bla
     return []
   end
 
