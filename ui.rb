@@ -45,6 +45,8 @@ class UI
       input = gets
       if input.strip.downcase == 'h'
       gets.strip.split(/\s+|,\s*/)
+      end
+    end
   end
 
   # Displays how many black and white hits were achieved in the last guessing
