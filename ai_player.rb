@@ -9,7 +9,7 @@ require_relative 'ui'
 class AIPlayer
 
 
-  def generate_code()
-
+  def generate_code(valid_values, code_length)
+    (valid_values*4).sample(code_length)
   end
 end

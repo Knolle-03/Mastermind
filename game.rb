@@ -24,6 +24,7 @@ class Game
   def start
     get_players
     @code = @code_maker.generate_code(@valid_values, CODE_LENGTH)
+    puts @code.class
   end
 
   # Assigns new Player objects to codemaker and -breaker.
