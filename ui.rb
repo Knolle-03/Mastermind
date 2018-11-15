@@ -41,18 +41,21 @@ class UI
     puts 'Guess the code:'
     puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
     puts 'Any of them may appear more than once. Press [H] for hint. (Disabled)'
+    input = ''
     loop do
       input = gets
-      if input.strip.downcase == 'h'
-      gets.strip.split(/\s+|,\s*/)
-      end
+      break unless input.strip.casecmp?('h')
+
+      # TODO: display hint
+      puts 'Sorry, not implemented yet.'
     end
+    input.strip.split(/\s+|,\s*/)
   end
 
   # Displays how many black and white hits were achieved in the last guessing
   # round. Also shows remaining number of tries.
   def self.give_feedback(black_hits, white_hits, remaining_tries)
-    puts ''
+    puts "#{black_hits} black hit#{black_hits == 1 ? '' : 's'} and #{white_hits} white hit#{white_hits == 1? '' : 's'}. You have #{remaining_tries} #{remaining_tries == 1 ? 'try' : 'tries'} remaining."
   end
 
   # Informs the player that a wrong number of arguments/input values was found.
@@ -63,6 +66,8 @@ class UI
   # Informs the player which input values were not valid.
   # false_values - array of any Strings to be displayed
   def self.display_wrong_symbols(false_values)
-    puts "Wrong values chosen. #{false_values.join(', ')} are not valid symbols."
+    puts "Wrong values chosen. #{false_values.join(', ')} #{false_values.size > 1 ? 'are not valid symbols' : 'is not a valid symbol'}."
   end
+
+  # TODO: winning and loosing messages
 end
