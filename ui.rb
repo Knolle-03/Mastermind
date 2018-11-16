@@ -6,25 +6,17 @@
 # Class for console interaction in the Mastermind game.
 class UI
 
-  # Greets the player and asks if the computer or a player takes the role of
-  # mastermind and codebreaker. Loops input until valid option is chosen.
-  def self.get_players
-    players = []
-    puts 'Choose Codemaker: [H]uman [C]omputer'
+  # Asks if a given player role is filled by a human player or a computer
+  # algorithm. Loops until a valid choice is made.
+  def self.human?(name)
+    puts "Choose #{name}: [H]uman [C]omputer"
     loop do
-      players[0] = gets.chomp.downcase
-      break if players[0] == 'h' || players[0] == 'c'
+      player = gets.chomp.downcase
+      return true if player == 'h'
+      return false if player == 'c'
 
-      puts 'Invalid option. Choose [H]uman or [C]omputer'
+      puts 'Invalid option. Type [H] for a human or [C] for a computer player.'
     end
-    puts 'Choose Codebreaker: [H]uman [C]omputer'
-    loop do
-      players[1] = gets.chomp.downcase
-      break if players[1] == 'h' || players[1] == 'c'
-
-      puts 'Invalid option. [H]uman or [C]omputer'
-    end
-    players
   end
 
   # Asks Player to choose a specified amount of symbols from a given range of
@@ -69,5 +61,25 @@ class UI
     puts "Wrong values chosen. #{false_values.join(', ')} #{false_values.size > 1 ? 'are not valid symbols' : 'is not a valid symbol'}."
   end
 
-  # TODO: winning and loosing messages
+  # Displays a message for when the right code was guessed.
+  def display_win
+    puts 'Hooray, the code was found. Codebreaker wins.'
+  end
+
+  # Displays a message for when there are no more tries left.
+  def display_game_over
+    puts "Oh noes, the code wasn't found in time. Codemaker wins."
+  end
+
+  # Asks the player if he wants to quit or play another round.
+  def exit?
+    puts 'Do you want to [Q]uit or [P]lay a new game?'
+    loop do
+      input = gets.strip.downcase
+      return true if input.eql?('q')
+      return false if input.eql?('p')
+
+      puts 'Please choose [Q] to quit or [P] to play again.'
+    end
+  end
 end
