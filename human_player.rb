@@ -34,17 +34,15 @@ class HumanPlayer
   # #refactor to?
   #
   # def generate_code(valid_values, expected_length)
-  #   code = []
   #   loop do
   #     code = UI.get_code_array(valid_values, expected_length)
-  #     break if validate_code(code, valid_values, expected_length)
+  #     return code if code_valid?(code, valid_values, expected_length)
   #   end
-  #   code
   # end
   #
   # private
   #
-  # def validate_code(code, valid_values, expected_length)
+  # def code_valid?(code, valid_values, expected_length)
   #   answer = expected_length == code.length
   #   UI.display_wrong_length(expected_length, code.length) unless answer
   #

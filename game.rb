@@ -15,7 +15,7 @@ class Game
 
   def initialize
     @valid_values = DEFAULT_SYMBOLS
-    @code = nil
+    @code = [1, 2, 3, 2]
     @code_maker = nil
     @code_breaker = nil
   end
@@ -25,12 +25,13 @@ class Game
     game_loop
   end
 
-  private
+  # TODO: set private again after tests:
+  # private
 
   # Navigates the game logic.
   def game_loop
     loop do
-      get_players
+      set_players
       @code = @code_maker.generate_code(@valid_values, CODE_LENGTH)
       guessing_loop
 
@@ -39,10 +40,9 @@ class Game
   end
 
   # Assigns new Player objects to codemaker and -breaker.
-  def get_players
-    players = UI.get_players
-    @code_maker = players[0].eql?('h') ? HumanPlayer.new : AIPlayer.new
-    @code_breaker = players[1].eql?('h') ? HumanPlayer.new : AIPlayer.new
+  def set_players
+    @code_maker = UI.human?('Codemaker') ? HumanPlayer.new : AIPlayer.new
+    @code_breaker = UI.human?('Codebreaker') ? HumanPlayer.new : AIPlayer.new
   end
 
   # Fetches a valid guess from the codebreaker player for a maximum of TRIES
