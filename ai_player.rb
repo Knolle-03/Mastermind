@@ -10,6 +10,11 @@ class AIPlayer
 
 
   def generate_code(valid_values, code_length)
-    (valid_values*4).sample(code_length)
+    (valid_values * code_length).sample(code_length)
+  end
+
+  def guess_code(valid_values, code_length)
+
+
   end
 end
