@@ -69,5 +69,25 @@ class UI
     puts "Wrong values chosen. #{false_values.join(', ')} #{false_values.size > 1 ? 'are not valid symbols' : 'is not a valid symbol'}."
   end
 
-  # TODO: winning and loosing messages
+  # Displays a message for when the right code was guessed.
+  def display_win
+    puts'Hooray, the code was found. Codebreaker wins.'
+  end
+
+  # Displays a message for when there are no more tries left.
+  def display_game_over
+    puts"Oh noes, the code wasn't found in time. Codemaker wins."
+  end
+
+  # Asks the player if he wants to quit or play another round.
+  def exit?
+    puts 'Do you want to [Q]uit or [P]lay a new game?'
+    loop do
+      input = gets.strip.downcase
+      return true if input.eql?('q')
+      return false if input.eql?('p')
+
+      puts 'Please choose [Q] to quit or [P] to play again.'
+    end
+  end
 end
