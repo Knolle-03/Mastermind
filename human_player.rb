@@ -10,7 +10,7 @@ class HumanPlayer
 
   def initialize(valid_values, expected_length)
     @valid_values = valid_values
-    @expected_length = expected_length
+    @code_length = expected_length
   end
 
   def generate_code

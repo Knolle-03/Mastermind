@@ -32,7 +32,7 @@ class Game
       set_players
       @code = @code_maker.generate_code
       # TODO: remove explicit code display:
-      puts @code.to_s
+      puts "code:#{@code.to_s}"
       guessing_loop
       break if UI.exit?
     end
@@ -93,7 +93,7 @@ class Game
   def white_hits(guess)
     white_hits = 0
     guess.each do |sym|
-      code.include?(sym) ? white_hits += 1 : nil
+      @code.include?(sym) ? white_hits += 1 : nil
     end
     white_hits
   end

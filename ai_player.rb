@@ -14,11 +14,11 @@ class AIPlayer
   end
 
   def generate_code
-    (@valid_values * 4).sample(@code_length)
     UI.confirm_code_assignment
+    (@valid_values * 4).sample(@code_length)
   end
 
-  def guess_code(valid_values, code_length)
+  def guess_code
     # guess
 
   end
