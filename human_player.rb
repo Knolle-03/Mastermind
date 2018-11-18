@@ -10,38 +10,31 @@ class HumanPlayer
 
   def generate_code(valid_values, code_length)
     code = UI.get_code_array(valid_values, code_length)
-    unless (code - valid_values).empty? && code.length == code_length
-    loop do
-      code = check_length(code, code_length, valid_values)
-      wrong_symbols = check_symbols(code, valid_values)
-      if wrong_symbols.length.zero?
-        code
-      else
-        UI.display_wrong_symbols(wrong_symbols)
-        code = UI.get_code_array(valid_values, code_length)
-      end
-      break if (code - valid_values).empty? && code.length == code_length
-    end
-    end
-    code
+    check_code(valid_values, code, code_length)
   end
 
   def guess_code(valid_values, code_length)
     guess = UI.get_guess(valid_values, code_length)
-    unless (guess - valid_values).empty? && guess.length == code_length
+    check_code(valid_values, guess, code_length)
+  end
+
+  private
+
+  def check_code(valid_values, code, code_length)
+    unless (code - valid_values).empty? && code.length == code_length
       loop do
-        guess = check_length(guess, code_length, valid_values)
-        wrong_symbols = check_symbols(guess, valid_values)
+        code = check_length(code, code_length, valid_values)
+        wrong_symbols = check_symbols(code, valid_values)
         if wrong_symbols.length.zero?
-          guess
+          code
         else
           UI.display_wrong_symbols(wrong_symbols)
-          guess = UI.get_code_array(valid_values, code_length)
+          code = UI.get_code_array(valid_values, code_length)
         end
-        break if (guess - valid_values).empty? && guess.length == code_length
+        break if (code - valid_values).empty? && code.length == code_length
       end
     end
-    guess
+    code
   end
 
   def check_length(code, code_length, valid_values)
@@ -62,6 +55,4 @@ class HumanPlayer
     end
     wrong_symbols
   end
-
-
 end
