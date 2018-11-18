@@ -14,7 +14,7 @@ class AIPlayer
   end
 
   def guess_code(valid_values, code_length)
-
+    guess
 
   end
 end

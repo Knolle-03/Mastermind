@@ -33,6 +33,8 @@ class Game
     loop do
       set_players
       @code = @code_maker.generate_code(@valid_values, CODE_LENGTH)
+      puts @code.to_s
+      puts @code.class
       guessing_loop
 
       break if UI.exit?
@@ -50,11 +52,11 @@ class Game
   # been found, a winning message.
   def guessing_loop
     TRIES.times do |i|
-      guessed = @code_breaker.guess_code(@valid_values, CODE_LENGTH)
-      hits = calculate_hits(guessed)
+      guess = @code_breaker.guess_code(@valid_values, CODE_LENGTH)
+      hits = calculate_hits(@code, guess)
       UI.give_feedback(hits[0], hits[1], TRIES - 1 - i)
 
-      if @code == guessed
+      if @code == guess
         UI.display_win
         return nil
       end
@@ -64,8 +66,31 @@ class Game
 
   # Takes an array and compares it to the @code. Returns the black and white
   # hits in an array.
-  def calculate_hits(guessed_ary)
-    # calculate black and white hits here
+  def calculate_hits(code, guess)
+    hits = []
+    black = black_hits(code, guess)
+    white = white_hits(code, guess)
+    hits << black << (white - black)
+    hits
     # return [black, white]
+  end
+
+  def black_hits(code, guess)
+    black_hits = 0
+    nested_arrays = code.zip(guess)
+    nested_arrays.each do |array|
+      array[0] == array[1] ? black_hits += 1 : nil
+    end
+    black_hits
+  end
+
+
+  def white_hits(code, guess)
+    white_hits = 0
+    guess.uniq!
+    guess.each do |sym|
+      code.include?(sym) ? white_hits += 1 : nil
+    end
+    white_hits
   end
 end
