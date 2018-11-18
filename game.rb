@@ -20,7 +20,6 @@ class Game
     @code_breaker = nil
   end
 
-  # Starts the game loop
   def start
     game_loop
   end
@@ -28,33 +27,38 @@ class Game
   # TODO: set private again after tests:
   # private
 
-  # Navigates the game logic.
   def game_loop
     loop do
       set_players
-      @code = @code_maker.generate_code(@valid_values, CODE_LENGTH)
+      @code = @code_maker.generate_code
       guessing_loop
 
       break if UI.exit?
     end
   end
 
-  # Assigns new Player objects to codemaker and -breaker.
   def set_players
-    @code_maker = UI.human?('Codemaker') ? HumanPlayer.new : AIPlayer.new
-    @code_breaker = UI.human?('Codebreaker') ? HumanPlayer.new : AIPlayer.new
+    @code_maker =
+       if UI.human?('Codemaker')
+         HumanPlayer.new(@valid_values, CODE_LENGTH)
+       else
+         AIPlayer.new(@valid_values, CODE_LENGTH)
+       end
+    @code_breaker =
+       if UI.human?('Codebreaker')
+         HumanPlayer.new(@valid_values, CODE_LENGTH)
+       else
+         AIPlayer.new(@valid_values, CODE_LENGTH)
+       end
   end
 
-  # Fetches a valid guess from the codebreaker player for a maximum of TRIES
-  # times. Displays a GameOver message after that - or, in case the code has
-  # been found, a winning message.
   def guessing_loop
     TRIES.times do |i|
-      guessed = @code_breaker.guess_code(@valid_values, CODE_LENGTH)
-      hits = calculate_hits(guessed)
-      UI.give_feedback(hits[0], hits[1], TRIES - 1 - i)
+      guess = @code_breaker.guess_code
+      hits = calculate_hits(guess)
+      UI.display_feedback(hits[0], hits[1], TRIES - 1 - i)
 
-      if @code == guessed
+      if @code == guess
         UI.display_win
         return nil
       end
@@ -62,10 +66,13 @@ class Game
     UI.display_game_over
   end
 
-  # Takes an array and compares it to the @code. Returns the black and white
-  # hits in an array.
-  def calculate_hits(guessed_ary)
+  def calculate_hits(guessed_code)
+    hits = Array.new(CODE_LENGTH)
+    guessed_code.each_index { |i| hits[i] = 'b' if @code[i] == guessed_code[i] }
+
     # calculate black and white hits here
     # return [black, white]
   end
 end
+
+Game.new.start
