@@ -62,17 +62,17 @@ class UI
   end
 
   # Displays a message for when the right code was guessed.
-  def display_win
+  def self.display_win
     puts 'Hooray, the code was found. Codebreaker wins.'
   end
 
   # Displays a message for when there are no more tries left.
-  def display_game_over
+  def self.display_game_over
     puts "Oh noes, the code wasn't found in time. Codemaker wins."
   end
 
   # Asks the player if he wants to quit or play another round.
-  def exit?
+  def self.exit?
     puts 'Do you want to [Q]uit or [P]lay a new game?'
     loop do
       input = gets.strip.downcase

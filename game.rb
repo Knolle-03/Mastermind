@@ -34,9 +34,7 @@ class Game
       set_players
       @code = @code_maker.generate_code(@valid_values, CODE_LENGTH)
       puts @code.to_s
-      puts @code.class
       guessing_loop
-
       break if UI.exit?
     end
   end
@@ -84,10 +82,8 @@ class Game
     black_hits
   end
 
-
   def white_hits(code, guess)
     white_hits = 0
-    guess.uniq!
     guess.each do |sym|
       code.include?(sym) ? white_hits += 1 : nil
     end
