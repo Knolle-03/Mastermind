@@ -25,21 +25,20 @@ class UI
   end
 
   def self.ask_for_guess(valid_values_ary, expected_length)
-    puts 'Guess the code:'
-    puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
-    puts 'Any of them may appear more than once. Press [H] to display hint. (Disabled)'
     input = ''
     loop do
-      input = gets
-      break unless input.strip.casecmp?('h')
+      input = gets.strip
+      display_help_text(valid_values_ary, expected_length) if input.casecmp?('h')
+      break unless %w[c h].include?(input.downcase)
 
       # TODO: display hint
-      puts 'Sorry, not implemented yet.'
+      puts 'Sorry, not implemented yet.' if input.casecmp?('c')
     end
     input.strip.split(/\s+|,\s*/)
   end
 
   def self.confirm_code_assignment
+    system "cls"
     puts 'Code has been set up successfully. Now it\'s guessing time...'
   end
 
@@ -58,12 +57,20 @@ class UI
          "#{false_values.size > 1 ? 'are not valid symbols' : 'is not a valid symbol'}."
   end
 
-  def self.display_win
-    puts 'Hooray, the code was found. Codebreaker wins.'
+  def self.display_win(remaining_tries)
+    puts "Hooray, the code was found. Codebreaker wins with " +
+         "#{remaining_tries} #{remaining_tries < 2 ? 'try' : 'tries'} to spare."
   end
 
-  def self.display_game_over
+  def self.display_game_over(expected_code)
     puts "Oh noes, the code wasn't found in time. Codemaker wins."
+    puts "The right code was #{expected_code.join(',')}."
+  end
+
+  def self.display_help_text(valid_values_ary, expected_length)
+    puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
+    puts 'Any of them may appear more than once.'
+    puts 'Type [H] for help and [C] to display a clue. (Disabled)'
   end
 
   def self.exit?

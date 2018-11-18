@@ -19,7 +19,6 @@ class AIPlayer
   end
 
   def guess_code
-    # guess
-
+    return [] #guess
   end
 end
