@@ -67,7 +67,7 @@ class Game
         if unused.include?(guess[i])
           unused[unused.index(guess[i])] = 0
           whites += 1
-      end
+        end
     end
     [blacks, whites]
  end
