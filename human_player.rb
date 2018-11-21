@@ -4,11 +4,12 @@
 # Author:: Robert Gnehr
 
 require_relative 'ui'
-require_relative 'ai_player'
+require_relative 'mastermind_calc'
 
 # Handles the input for new codes and guesses via the UI for human players.
 # Also checks if this input is complying with the rules.
 class HumanPlayer
+
   def initialize(valid_values, expected_length)
     @possibilities = valid_values.repeated_permutation(expected_length).to_a
     @previous_guess = []
@@ -19,7 +20,8 @@ class HumanPlayer
   def generate_code
     code = []
     loop do
-      code = UI.ask_for_new_code(@valid_values, @expected_length)
+      UI.ask_for_new_code(@valid_values, @expected_length)
+      code = UI.get_console_input
       break if code_valid?(code)
     end
     UI.confirm_code_assignment
@@ -28,11 +30,15 @@ class HumanPlayer
 
   def guess_code
     loop do
-      guess = UI.ask_for_guess(@valid_values, @expected_length)
-      if guess
-        return guess if code_valid?(guess)
+      input = UI.get_console_input
+      if input[0].nil?
+        UI.display_wrong_length(@expected_length, 0)
+      elsif input[0].casecmp?('c')
+        generate_hint
+      elsif input[0].casecmp?('h')
+        UI.ask_for_guess(@valid_values, @expected_length)
       else
-        return generate_hint
+        return input if code_valid?(input)
       end
     end
   end
@@ -45,25 +51,9 @@ class HumanPlayer
 
   def generate_hint
     @previous_guess.each do |guess|
-      @possibilities.delete_if { |option| calculate_hits(option, guess) != guess[1] }
+      @possibilities.delete_if { |option| MastermindCalc.match_hits(option, guess[0]) != guess[1] }
     end
-    [@possibilities.length, @possibilities[0]]
-  end
-
-  def calculate_hits(option, guess)
-    unused = guess[0].dup
-    option.each_index { |i| unused[i] = false if unused[i] == option[i] }
-    blacks = unused.count(false)
-
-    whites = 0
-    option.each_index do |i|
-      next unless unused[i]
-      if unused.include?(option[i])
-        unused[unused.index(option[i])] = 0
-        whites += 1
-      end
-    end
-    [blacks, whites]
+    UI.display_clue(@previous_guess.empty? ? @possibilities[7] : @possibilities[0])
   end
 
   def code_valid?(code)

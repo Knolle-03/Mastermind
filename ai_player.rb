@@ -4,6 +4,7 @@
 # Author:: Robert Gnehr
 
 require_relative 'ui'
+require_relative 'mastermind_calc'
 
 # Class description
 class AIPlayer
@@ -38,22 +39,6 @@ class AIPlayer
   private
 
   def adjust_possibilities
-    @possibilities.delete_if { |option| calculate_hits(option) != @previous_guess[-1][1] }
-  end
-
-  def calculate_hits(option)
-    unused = @previous_guess[-1][0].dup
-    option.each_index { |i| unused[i] = false if unused[i] == option[i] }
-    blacks = unused.count(false)
-
-    whites = 0
-    option.each_index do |i|
-      next unless unused[i]
-      if unused.include?(option[i])
-        unused[unused.index(option[i])] = 0
-        whites += 1
-      end
-    end
-    [blacks, whites]
+    @possibilities.delete_if { |option| MastermindCalc.match_hits(@previous_guess[-1][0], option) != @previous_guess[-1][1] }
   end
 end

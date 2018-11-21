@@ -21,21 +21,16 @@ class UI
     puts 'Generate a new code:'
     puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
     puts 'You may choose any of them more than once.'
-    gets.strip.split(/\s+|,\s*/)
   end
 
   def self.ask_for_guess(valid_values_ary, expected_length)
-    loop do
-      input = gets.strip
-      if input.casecmp?('c')
-        return false
-      elsif input.casecmp?('h')
-        display_help_text(valid_values_ary, expected_length)
-      else
-        return input.strip.split(/\s+|,\s*/)
-      end
-    end
+    puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
+    puts 'Any of them may appear more than once.'
+    puts 'Type [H] for help and [C] to display a clue.'
+  end
 
+  def self.get_console_input
+    gets.strip.split(/\s+|,\s*/)
   end
 
   def self.confirm_code_assignment
@@ -73,14 +68,7 @@ class UI
   end
 
   def self.display_clue(guess)
-    puts "There #{guess[0] == 1 ? 'is' : 'are'} #{guess[0]} #{guess[0] == 1 ? 'possibility' : 'possibilities'} left."
-    puts "The AI would have chosen #{guess[1].join(', ')} next."
-  end
-
-  def self.display_help_text(valid_values_ary, expected_length)
-    puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
-    puts 'Any of them may appear more than once.'
-    puts 'Type [H] for help and [C] to display a clue. (Disabled)'
+    puts "The AI would choose #{guess.join(', ')} next."
   end
 
   def self.exit?
