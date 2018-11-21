@@ -17,10 +17,6 @@ class UI
     end
   end
 
-  def self.display_guess(guess)
-    puts "Guessing... #{guess.join(' ')}"
-  end
-
   def self.ask_for_new_code(valid_values_ary, expected_length)
     puts 'Generate a new code:'
     puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
@@ -29,20 +25,21 @@ class UI
   end
 
   def self.ask_for_guess(valid_values_ary, expected_length)
-    input = ''
     loop do
       input = gets.strip
-      display_help_text(valid_values_ary, expected_length) if input.casecmp?('h')
-      break unless %w[c h].include?(input.downcase)
-
-      # TODO: display hint
-      puts 'Sorry, not implemented yet.' if input.casecmp?('c')
+      if input.casecmp?('c')
+        return false
+      elsif input.casecmp?('h')
+        display_help_text(valid_values_ary, expected_length)
+      else
+        return input.strip.split(/\s+|,\s*/)
+      end
     end
-    input.strip.split(/\s+|,\s*/)
+
   end
 
   def self.confirm_code_assignment
-    system "cls"
+    # system "cls"      # windows only(?)
     puts 'Code has been set up successfully. Now it\'s guessing time...'
   end
 
@@ -50,6 +47,10 @@ class UI
     puts "#{black_hits} black hit#{black_hits == 1 ? '' : 's'} and " +
          "#{white_hits} white hit#{white_hits == 1 ? '' : 's'}. You have " +
          "#{remaining_tries} #{remaining_tries == 1 ? 'try' : 'tries'} remaining."
+  end
+
+  def self.display_guess(guess)
+    puts "Guessing... #{guess.join(' ')}"
   end
 
   def self.display_wrong_length(expected_length, actual_length)

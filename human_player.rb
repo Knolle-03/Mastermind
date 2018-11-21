@@ -10,6 +10,7 @@ require_relative 'ui'
 class HumanPlayer
 
   def initialize(valid_values, expected_length)
+    @previous_guess = []
     @valid_values = valid_values
     @expected_length = expected_length
   end
@@ -27,11 +28,23 @@ class HumanPlayer
   def guess_code
     loop do
       guess = UI.ask_for_guess(@valid_values, @expected_length)
-      return guess if code_valid?(guess)
+      if guess
+        return guess if code_valid?(guess)
+      else
+        generate_hint
+      end
     end
   end
 
+  def pass_feedback(guess, hits)
+    @previous_guess << [guess, hits]
+  end
+
   private
+
+  def generate_hint
+    puts 'Hier könnte IHR Hinweis stehen!'
+  end
 
   def code_valid?(code)
     answer = @expected_length == code.length
@@ -45,60 +58,3 @@ class HumanPlayer
     answer
   end
 end
-
-
-# class HumanPlayer
-#
-#   def initialize(valid_values, expected_length)
-#     @valid_values = valid_values
-#     @code_length = expected_length
-#   end
-#
-#   def generate_code
-#     code = UI.ask_for_new_code(@valid_values, @code_length)
-#     check_code(code)
-#   end
-#
-#   def guess_code
-#     guess = UI.ask_for_guess(@valid_values, @code_length)
-#     check_code(guess)
-#   end
-#
-#   private
-#
-#   def check_code(code)
-#     unless (code - @valid_values).empty? && code.length == @code_length
-#       loop do
-#         code = check_length(code)
-#         wrong_symbols = check_symbols(code)
-#         if wrong_symbols.length.zero?
-#           code
-#         else
-#           UI.display_wrong_symbols(wrong_symbols)
-#           code = UI.ask_for_new_code(@valid_values, @code_length)
-#         end
-#         break if (code - @valid_values).empty? && code.length == @code_length
-#       end
-#     end
-#     code
-#   end
-#
-#   def check_length(code)
-#     if code.length != @code_length
-#       UI.display_wrong_length(@code_length, code.length)
-#       puts '============================================'
-#       code = UI.ask_for_new_code(@valid_values, @code_length)
-#     end
-#     code
-#   end
-#
-#   def check_symbols(code)
-#     wrong_symbols = []
-#     code.each do |sym|
-#       unless @valid_values.include?(sym)
-#         wrong_symbols << sym
-#       end
-#     end
-#     wrong_symbols
-#   end
-# end

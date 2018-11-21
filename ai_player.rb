@@ -31,12 +31,18 @@ class AIPlayer
     @possibilities[0]
   end
 
+  def pass_feedback(guess, hits)
+    @previous_guess << [guess, hits]
+  end
+
+  private
+
   def adjust_possibilities
-    @possibilities.delete_if { |option| calculate_hits(option) != @previous_guess[1] }
+    @possibilities.delete_if { |option| calculate_hits(option) != @previous_guess[-1][1] }
   end.to_s
 
   def calculate_hits(option)
-    unused = @previous_guess[0].dup
+    unused = @previous_guess[-1][0].dup
     option.each_index { |i| unused[i] = false if unused[i] == option[i] }
     blacks = unused.count(false)
 
@@ -49,9 +55,5 @@ class AIPlayer
       end
     end
     [blacks, whites]
-  end
-
-  def pass_feedback(guess, hits)
-    @previous_guess = [guess, hits]
   end
 end

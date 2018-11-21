@@ -11,8 +11,8 @@ require_relative 'ai_player'
 class Game
   def initialize
     @tries = 10
-    @code_length = 5
-    @valid_values = %w[Hund Katze Nacktmull Nilpferd Nashorn Wombat].freeze
+    @code_length = 4
+    @valid_values = %w[1 2 3 4 5 6].freeze
     @code = [1, 2, 3, 2]
     @code_maker = nil
     @code_breaker = nil
@@ -29,8 +29,6 @@ class Game
     loop do
       set_players
       @code = @code_maker.generate_code
-      # TODO: remove explicit code display:
-      #puts "(code: #{@code.join(',')})"
       guessing_loop
       break if UI.exit?
     end
@@ -50,7 +48,7 @@ class Game
         UI.display_win(@tries - 1 - i)
         return nil
       end
-      @code_breaker.pass_feedback(guess, hits) if @code_breaker.is_a?(AIPlayer)
+      @code_breaker.pass_feedback(guess, hits) #if @code_breaker.is_a?(AIPlayer)
       UI.display_feedback(hits[0], hits[1], @tries - 1 - i)
     end
     UI.display_game_over(@code)
@@ -71,31 +69,6 @@ class Game
     end
     [blacks, whites]
  end
-
-  # def calculate_hits(guess)
-  #   hits = []
-  #   black = black_hits(guess)
-  #   white = white_hits(guess)
-  #   hits << black << (white - black)
-  #   hits
-  # end
-
-  # def black_hits(guess)
-  #   black_hits = 0
-  #   nested_arrays = @code.zip(guess)
-  #   nested_arrays.each do |array|
-  #     array[0] == array[1] ? black_hits += 1 : nil
-  #   end
-  #   black_hits
-  # end
-  #
-  # def white_hits(guess)
-  #   white_hits = 0
-  #   guess.each do |sym|
-  #     @code.include?(sym) ? white_hits += 1 : nil
-  #   end
-  #   white_hits
-  # end
 end
 
 Game.new.start
