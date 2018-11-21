@@ -17,6 +17,10 @@ class UI
     end
   end
 
+  def self.display_guess(guess)
+    puts "Guessing... #{guess.join(' ')}"
+  end
+
   def self.ask_for_new_code(valid_values_ary, expected_length)
     puts 'Generate a new code:'
     puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."

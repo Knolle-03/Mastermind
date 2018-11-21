@@ -9,7 +9,7 @@ require_relative 'ui'
 class AIPlayer
 
   def initialize(valid_values, expected_length)
-    @possibilities = valid_values.repeated_permutation(4).to_a
+    @possibilities = valid_values.repeated_permutation(expected_length).to_a
     @previous_guess = []
     @valid_values = valid_values
     @code_length = expected_length
@@ -21,20 +21,19 @@ class AIPlayer
   end
 
   def guess_code
-    puts @previous_guess.empty?
-    puts @possibilities[7].join(' ')
-    return @possibilities[7] if @previous_guess.empty?
+    if @previous_guess.empty?
+      UI.display_guess(@possibilities[7])
+      return @possibilities[7]
+    end
 
     adjust_possibilities
-    puts @possibilities[0].join(' ')
+    UI.display_guess(@possibilities[0])
     @possibilities[0]
   end
 
   def adjust_possibilities
-    @possibilities.each do |option|
-      @possibilities.delete(option) unless calculate_hits(option) == @previous_guess[1]
-    end
-  end
+    @possibilities.delete_if { |option| calculate_hits(option) != @previous_guess[1] }
+  end.to_s
 
   def calculate_hits(option)
     unused = @previous_guess[0].dup

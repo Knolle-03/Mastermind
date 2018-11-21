@@ -11,8 +11,8 @@ require_relative 'ai_player'
 class Game
   def initialize
     @tries = 10
-    @code_length = 4
-    @valid_values = %w[1 2 3 4 5 6].freeze
+    @code_length = 5
+    @valid_values = %w[Hund Katze Nacktmull Nilpferd Nashorn Wombat].freeze
     @code = [1, 2, 3, 2]
     @code_maker = nil
     @code_breaker = nil
