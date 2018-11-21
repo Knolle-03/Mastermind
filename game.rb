@@ -9,12 +9,10 @@ require_relative 'ai_player'
 
 # Contains game logic for Mastermind game.
 class Game
-  TRIES = 10
-  CODE_LENGTH = 4
-  DEFAULT_SYMBOLS = %w[1 2 3 4 5 6].freeze
-
   def initialize
-    @valid_values = DEFAULT_SYMBOLS
+    @tries = 10
+    @code_length = 4
+    @valid_values = %w[1 2 3 4 5 6].freeze
     @code = [1, 2, 3, 2]
     @code_maker = nil
     @code_breaker = nil
@@ -39,30 +37,21 @@ class Game
   end
 
   def set_players
-    @code_maker =
-       if UI.human?('Codemaker')
-         HumanPlayer.new(@valid_values, CODE_LENGTH)
-       else
-         AIPlayer.new(@valid_values, CODE_LENGTH)
-       end
-    @code_breaker =
-       if UI.human?('Codebreaker')
-         HumanPlayer.new(@valid_values, CODE_LENGTH)
-       else
-         AIPlayer.new(@valid_values, CODE_LENGTH)
-       end
+    @code_maker = UI.human?('Codemaker') ? HumanPlayer.new(@valid_values, @code_length) : AIPlayer.new(@valid_values, @code_length)
+    @code_breaker = UI.human?('Codebreaker') ? HumanPlayer.new(@valid_values, @code_length) : AIPlayer.new(@valid_values, @code_length)
   end
 
   def guessing_loop
-    UI.display_help_text(@valid_values, CODE_LENGTH)
-    TRIES.times do |i|
+    UI.display_help_text(@valid_values, @code_length)
+    @tries.times do |i|
       guess = @code_breaker.guess_code
       hits = calculate_hits(guess)
       if @code == guess
-        UI.display_win(TRIES - 1 - i)
+        UI.display_win(@tries - 1 - i)
         return nil
       end
-      UI.display_feedback(hits[0], hits[1], TRIES - 1 - i)
+      @code_breaker.pass_feedback(guess, hits) if @code_breaker.is_a?(AIPlayer)
+      UI.display_feedback(hits[0], hits[1], @tries - 1 - i)
     end
     UI.display_game_over(@code)
   end

@@ -37,8 +37,7 @@ class HumanPlayer
     answer = @expected_length == code.length
     UI.display_wrong_length(@expected_length, code.length) unless answer
 
-    wrong_symbols = []
-    code.each { |sym| wrong_symbols << sym unless @valid_values.include?(sym) }
+    wrong_symbols = code - @valid_values
     unless wrong_symbols.empty?
       UI.display_wrong_symbols(wrong_symbols)
       answer = false
