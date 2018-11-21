@@ -4,12 +4,13 @@
 # Author:: Robert Gnehr
 
 require_relative 'ui'
+require_relative 'ai_player'
 
 # Handles the input for new codes and guesses via the UI for human players.
 # Also checks if this input is complying with the rules.
 class HumanPlayer
-
   def initialize(valid_values, expected_length)
+    @possibilities = valid_values.repeated_permutation(expected_length).to_a
     @previous_guess = []
     @valid_values = valid_values
     @expected_length = expected_length
@@ -31,7 +32,7 @@ class HumanPlayer
       if guess
         return guess if code_valid?(guess)
       else
-        generate_hint
+        return generate_hint
       end
     end
   end
@@ -43,7 +44,26 @@ class HumanPlayer
   private
 
   def generate_hint
-    puts 'Hier könnte IHR Hinweis stehen!'
+    @previous_guess.each do |guess|
+      @possibilities.delete_if { |option| calculate_hits(option, guess) != guess[1] }
+    end
+    [@possibilities.length, @possibilities[0]]
+  end
+
+  def calculate_hits(option, guess)
+    unused = guess[0].dup
+    option.each_index { |i| unused[i] = false if unused[i] == option[i] }
+    blacks = unused.count(false)
+
+    whites = 0
+    option.each_index do |i|
+      next unless unused[i]
+      if unused.include?(option[i])
+        unused[unused.index(option[i])] = 0
+        whites += 1
+      end
+    end
+    [blacks, whites]
   end
 
   def code_valid?(code)

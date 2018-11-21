@@ -39,7 +39,7 @@ class AIPlayer
 
   def adjust_possibilities
     @possibilities.delete_if { |option| calculate_hits(option) != @previous_guess[-1][1] }
-  end.to_s
+  end
 
   def calculate_hits(option)
     unused = @previous_guess[-1][0].dup

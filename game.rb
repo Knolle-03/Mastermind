@@ -43,6 +43,13 @@ class Game
     UI.display_help_text(@valid_values, @code_length)
     @tries.times do |i|
       guess = @code_breaker.guess_code
+      loop do
+        if guess.length <= 2
+        UI.display_clue(guess)
+        guess = @code_breaker.guess_code
+        end
+        break if guess.length == 4
+      end
       hits = calculate_hits(guess)
       if @code == guess
         UI.display_win(@tries - 1 - i)
@@ -68,7 +75,7 @@ class Game
         end
     end
     [blacks, whites]
- end
+  end
 end
 
 Game.new.start

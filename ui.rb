@@ -64,12 +64,17 @@ class UI
 
   def self.display_win(remaining_tries)
     puts "Hooray, the code was found. Codebreaker wins with " +
-         "#{remaining_tries} #{remaining_tries < 2 ? 'try' : 'tries'} to spare."
+         "#{remaining_tries} #{remaining_tries == 1 ? 'try' : 'tries'} to spare."
   end
 
   def self.display_game_over(expected_code)
     puts "Oh noes, the code wasn't found in time. Codemaker wins."
     puts "The right code was #{expected_code.join(',')}."
+  end
+
+  def self.display_clue(guess)
+    puts "There #{guess[0] == 1 ? 'is' : 'are'} #{guess[0]} #{guess[0] == 1 ? 'possibility' : 'possibilities'} left."
+    puts "The AI would have chosen #{guess[1].join(', ')} next."
   end
 
   def self.display_help_text(valid_values_ary, expected_length)
