@@ -3,11 +3,12 @@
 # Author:: Lennart Draeger
 # Author:: Robert Gnehr
 
-require_relative 'ui'
+require_relative 'graphic_ui'
 require_relative 'mastermind_calc'
 
 # Class description
 class AIPlayer
+  UI = GraphicUI
 
   def initialize(valid_values, expected_length)
     @possibilities = valid_values.repeated_permutation(expected_length).to_a
@@ -17,11 +18,10 @@ class AIPlayer
   end
 
   def generate_code
-    UI.confirm_code_assignment
     (@valid_values * @code_length).sample(@code_length)
   end
 
-  def guess_code
+  def guess_code(i)
     if @previous_guess.empty?
       UI.display_guess(@possibilities[7])
       return @possibilities[7]

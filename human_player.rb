@@ -3,12 +3,13 @@
 # Author:: Lennart Draeger
 # Author:: Robert Gnehr
 
-require_relative 'ui'
+require_relative 'graphic_ui'
 require_relative 'mastermind_calc'
 
 # Handles the input for new codes and guesses via the UI for human players.
 # Also checks if this input is complying with the rules.
 class HumanPlayer
+  UI = GraphicUI
 
   def initialize(valid_values, expected_length)
     @possibilities = valid_values.repeated_permutation(expected_length).to_a
@@ -18,33 +19,35 @@ class HumanPlayer
   end
 
   def generate_code
-    code = []
     loop do
       UI.ask_for_new_code(@valid_values, @expected_length)
       code = UI.get_console_input
-      break if code_valid?(code)
+      return code if code_valid?(code)
+      UI.confirm
     end
-    UI.confirm_code_assignment
-    code
   end
 
   def guess_code
     loop do
-      input = UI.get_console_input
+      UI.ask_for_guess(@valid_values, @code_length, @previous_guess)
+      input = UI.get_console_input(@previous_guess.size + 1)
       if input[0].nil?
         UI.display_wrong_length(@expected_length, 0)
       elsif input[0].casecmp?('c')
         generate_hint
-      elsif input[0].casecmp?('h')
-        UI.ask_for_guess(@valid_values, @expected_length)
+        UI.confirm
       else
         return input if code_valid?(input)
+        UI.confirm
       end
     end
   end
 
-  def pass_feedback(guess, hits)
+  def pass_feedback(guess, hits, tries)
     @previous_guess << [guess, hits]
+    if hits[0] == guess.size || tries == @previous_guess.size
+      UI.ask_for_guess(@valid_values, @code_length, @previous_guess)
+    end
   end
 
   private

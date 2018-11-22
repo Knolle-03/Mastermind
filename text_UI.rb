@@ -4,7 +4,7 @@
 # Author:: Robert Gnehr
 
 # Class for console interaction in the Mastermind game.
-class UI
+class TextUI
 
   def self.human?(name)
     puts "Choose #{name}: [H]uman [C]omputer"
@@ -21,35 +21,31 @@ class UI
     puts 'Generate a new code:'
     puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
     puts 'You may choose any of them more than once.'
-    gets.strip.split(/\s+|,\s*/)
   end
 
   def self.ask_for_guess(valid_values_ary, expected_length)
-    input = ''
-    loop do
-      input = gets.strip
-      display_help_text(valid_values_ary, expected_length) if input.casecmp?('h')
-      break unless %w[c h].include?(input.downcase)
+    puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
+    puts 'Any of them may appear more than once.'
+    puts 'Type [H] for help and [C] to display a clue.'
+  end
 
-      # TODO: display hint
-      puts 'Sorry, not implemented yet.' if input.casecmp?('c')
-    end
-    input.strip.split(/\s+|,\s*/)
+  def self.get_console_input
+    gets.strip.split(/\s+|,\s*/)
   end
 
   def self.confirm_code_assignment
-    system "cls"
+    # system "cls"      # windows only(?)
     puts 'Code has been set up successfully. Now it\'s guessing time...'
-  end
-
-  def self.display_guess(guess)
-    puts "Guessing... #{guess.join(' ')}"
   end
 
   def self.display_feedback(black_hits, white_hits, remaining_tries)
     puts "#{black_hits} black hit#{black_hits == 1 ? '' : 's'} and " +
          "#{white_hits} white hit#{white_hits == 1 ? '' : 's'}. You have " +
          "#{remaining_tries} #{remaining_tries == 1 ? 'try' : 'tries'} remaining."
+  end
+
+  def self.display_guess(guess)
+    puts "Guessing... #{guess.join(' ')}"
   end
 
   def self.display_wrong_length(expected_length, actual_length)
@@ -63,7 +59,7 @@ class UI
 
   def self.display_win(remaining_tries)
     puts "Hooray, the code was found. Codebreaker wins with " +
-         "#{remaining_tries} #{remaining_tries < 2 ? 'try' : 'tries'} to spare."
+         "#{remaining_tries} #{remaining_tries == 1 ? 'try' : 'tries'} to spare."
   end
 
   def self.display_game_over(expected_code)
@@ -71,10 +67,8 @@ class UI
     puts "The right code was #{expected_code.join(',')}."
   end
 
-  def self.display_help_text(valid_values_ary, expected_length)
-    puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
-    puts 'Any of them may appear more than once.'
-    puts 'Type [H] for help and [C] to display a clue. (Disabled)'
+  def self.display_clue(guess)
+    puts "The AI would choose #{guess.join(', ')} next."
   end
 
   def self.exit?
