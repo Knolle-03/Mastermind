@@ -7,27 +7,27 @@
 class GraphicUI
 
   def self.human?(name)
-    system "cls"
+    system "cls" or system "clear"
     puts "Choose #{name}: [H]uman [C]omputer\n\n"
     loop do
       player = gets.chomp.downcase
       return true if player == 'h'
       return false if player == 'c'
 
-      system "cls"
+      system "cls" or system "clear"
       puts "Choose #{name}:\nInvalid option. Type [H] for a human or [C] for a computer player.\n\n"
     end
   end
 
   def self.ask_for_new_code(valid_values_ary, expected_length)
-    system "cls"
+    system "cls" or system "clear"
     puts 'Generate a new code:'
     puts "Insert #{expected_length} of the following values: #{valid_values_ary.join(', ')}."
     puts "You may choose any of them more than once.\n\n"
   end
 
   def self.ask_for_guess(valid_values_ary, expected_length, previous_guesses)
-    system "cls"
+    system "cls" or system "clear"
     puts 'Code has been set up successfully. Now it\'s guessing time...'
     puts "Insert #{expected_length} of the following values:"
     puts "#{valid_values_ary.join(', ')}."
@@ -52,8 +52,11 @@ class GraphicUI
              "#{remaining_tries} #{remaining_tries == 1 ? 'try' : 'tries'} remaining."
   end
 
-  def self.display_guess(guess)
+  def self.display_guess(guess, prev)
+    system "cls" or system "clear"
     puts "Guessing... #{guess.join(' ')}"
+    append(prev)
+    sleep(1)
   end
 
   def self.display_wrong_length(expected_length, actual_length)
