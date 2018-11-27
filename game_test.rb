@@ -16,6 +16,7 @@ class GameTest < Test::Unit::TestCase
     assert_equal([4, 0], MastermindCalc.match_hits(@code, %w[1 2 3 2]))
     assert_equal([3, 0], MastermindCalc.match_hits(@code, %w[1 2 3 6]))
 
+
     assert_equal([0, 0], MastermindCalc.match_hits(@code, %w[4 6 6 6]))
     assert_equal([0, 0], MastermindCalc.match_hits(@code, %w[6 6 6 6]))
     assert_equal([0, 0], MastermindCalc.match_hits(@code, %w[5 4 4 5]))
@@ -33,6 +34,7 @@ class GameTest < Test::Unit::TestCase
     assert_equal([0, 4], MastermindCalc.match_hits(@code, %w[2 1 2 3]))
 
     assert_equal([1, 1], MastermindCalc.match_hits(@code, %w[1 3 5 6]))
+    assert_equal([1, 2], MastermindCalc.match_hits(@code, %w[4 2 2 3]))
     assert_equal([1, 2], MastermindCalc.match_hits(@code, %w[1 6 2 3]))
     assert_equal([1, 3], MastermindCalc.match_hits(@code, %w[2 3 1 2]))
 
