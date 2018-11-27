@@ -3,7 +3,10 @@
 # Author:: Lennart Draeger
 # Author:: Robert Gnehr
 
-# Class description
+# Utility class, that handles the hit calculation. Each value its right position
+# in the array counts towards black hits. If the remaining values are also
+# included in the array, but not at the right position, they count towards white
+# hits. Returns black and white hits as an array.
 class MastermindCalc
   def self.match_hits(code, guess)
     unused = code.dup

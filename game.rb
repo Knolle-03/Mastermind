@@ -54,5 +54,3 @@ class Game
     UI.display_game_over(@code)
   end
 end
-
-Game.new.start

@@ -6,7 +6,12 @@
 require_relative 'ui'
 require_relative 'mastermind_calc'
 
-# Class description
+# Handles game interaction for computer players. Can generate a new code
+# according to given values. To guess the code previous guesses and their
+# corresponding hits are stored in this class. There also is an array with all
+# possible code combinations, from which all combinations get deleted each
+# guessing round, that do not have matching hit values for the respectively last
+# guess.
 class AIPlayer
 
   def initialize(valid_values, expected_length)

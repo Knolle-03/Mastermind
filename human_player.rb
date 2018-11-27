@@ -7,7 +7,9 @@ require_relative 'ui'
 require_relative 'mastermind_calc'
 
 # Handles the input for new codes and guesses via the UI for human players.
-# Also checks if this input is complying with the rules.
+# Also checks if this input is complying with the rules. As previous guesses and
+# their corresponding hits are stored, it also can calculate an educated guess
+# towards the solution of the code.
 class HumanPlayer
 
   def initialize(valid_values, expected_length)
