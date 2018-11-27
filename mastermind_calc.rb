@@ -35,6 +35,7 @@ class MastermindCalc
         whites += 1
       end
     end
+
     [blacks, whites - blacks]
   end
 end
