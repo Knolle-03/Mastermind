@@ -1,11 +1,28 @@
+guess = %w[1 2 3 6]
+code = %w[1 2 3 2]
+blacks = 0
+guess.each_with_index { |value, i| blacks += 1 if value == code[i] }
 
-code = ["4", "2", "6", "7"]
-guess = ["1", "3", "6", "4"]
-numbers = %w[1 2 3 4 5 6]
+# 'whites = 0
+# tested_values = []
+# guess.each do |value|
+#   tested_values << value
+#   c = code.count(value)
+#   whites += c
+# end'
 
-possibilities = numbers.repeated_permutation(4).to_a
-puts possibilities[7]
-puts possibilities.index(["1", "1", "2", "2"])
+whites = 0
+guess_uniq = guess.uniq
+guess.uniq.each do |value|
+  c = code.count(value) -
+      whites += c
+
+end
+whites = whites - blacks
+puts blacks
+puts whites
+
+puts %w[1 2 3 2].uniq
 
 
 
