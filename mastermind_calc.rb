@@ -25,6 +25,7 @@ class MastermindCalc
   # end
 
   def self.match_hits(code, guess)
+
     code_copy = code.dup
     whites = 0
     blacks = code_copy.zip(guess).find_all { |a, b| a == b }.count
