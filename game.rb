@@ -11,15 +11,18 @@ require_relative 'mastermind_calc'
 # Contains game logic for Mastermind game.
 class Game
   def initialize
-    @tries = 10
-    @code_length = 4
-    @valid_values = %w[1 2 3 4 5 6]
+    @tries = nil
+    @code_length = nil
+    @valid_values = nil
     @code = []
     @code_maker = nil
     @code_breaker = nil
   end
 
   def start
+    @tries = UI.number_of_tries
+    @code_length = UI.code_length
+    @valid_values = UI.valid_values
     game_loop
   end
 
@@ -31,6 +34,12 @@ class Game
       @code = @code_maker.generate_code
       guessing_loop
       break if UI.exit?
+
+      next unless UI.change_settings?
+
+      @tries = UI.number_of_tries
+      @code_length = UI.code_length
+      @valid_values = UI.valid_values
     end
   end
 

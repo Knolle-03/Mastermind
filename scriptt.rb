@@ -1,29 +1,35 @@
-code = %w[1 2 3 2]
-guess = %w[4 2 2 3]
+puts [1].repeated_permutation(2).to_a.to_s
 
 
 
 
-guess2 = guess.dup
-code2 = code.dup
-whites = 0
-blacks = code2.zip(guess2).find_all { |a, b| a == b }.count
-guess2.each do |value|
-  if code2.include?(value)
-    code2.delete_at(code2.index(value))
-    puts code2.to_s
-    whites += 1
-  end
-  whites
-end
-hits = [blacks, whites - blacks]
 
-
-puts code2.to_s
-puts guess2.to_s
-puts '--------------------'
-puts hits[0]
-puts hits[1]
+# code = %w[1 2 3 2]
+# guess = %w[4 2 2 3]
+#
+#
+#
+#
+# guess2 = guess.dup
+# code2 = code.dup
+# whites = 0
+# blacks = code2.zip(guess2).find_all { |a, b| a == b }.count
+# guess2.each do |value|
+#   if code2.include?(value)
+#     code2.delete_at(code2.index(value))
+#     puts code2.to_s
+#     whites += 1
+#   end
+#   whites
+# end
+# hits = [blacks, whites - blacks]
+#
+#
+# puts code2.to_s
+# puts guess2.to_s
+# puts '--------------------'
+# puts hits[0]
+# puts hits[1]
 
 
 

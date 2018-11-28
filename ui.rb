@@ -5,6 +5,34 @@
 
 # Class for console interaction in the Mastermind game.
 class UI
+  def self.number_of_tries
+    puts 'Enter the number of tries.'
+    number_of_tries = gets.strip.to_i
+    number_of_tries
+  end
+
+  def self.code_length
+    puts 'Enter the length of the code.'
+    code_length = gets.strip.to_i
+    code_length
+  end
+
+  def self.valid_values
+    puts 'Enter the valid values for the code separated by spaces.'
+    valid_values = gets.strip.split(/\s+|,\s*/)
+    valid_values
+  end
+
+  def self.change_settings?
+    puts 'Do you want to [c]hange the settings or [k]eep them?'
+    loop do
+      input = gets.chomp.downcase
+      return true if input == 'c'
+      return false if input == 'k'
+
+      puts 'Invalid option. Type [c] to change the settings or [k] to keep them.'
+    end
+  end
 
   def self.human?(name)
     puts "Choose #{name}: [H]uman [C]omputer"
