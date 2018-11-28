@@ -1,6 +1,6 @@
 # Aufgabe a07
-# Team ChillyCrabs
-# Author:: Sven Reymann
+# Team ChillyCrabs | NeamTame
+# Author:: Lennart Draeger
 # Author:: Robert Gnehr
 
 require_relative 'game'
