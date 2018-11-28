@@ -25,17 +25,15 @@ class MastermindCalc
   # end
 
   def self.match_hits(code, guess)
-    guess_copy = guess.dup
     code_copy = code.dup
     whites = 0
-    blacks = code_copy.zip(guess_copy).find_all { |a, b| a == b }.count
-    guess_copy.each do |value|
+    blacks = code_copy.zip(guess).find_all { |a, b| a == b }.count
+    guess.each do |value|
       if code_copy.include?(value)
         code_copy.delete_at(code_copy.index(value))
         whites += 1
       end
     end
-
     [blacks, whites - blacks]
   end
 end
