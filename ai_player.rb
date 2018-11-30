@@ -24,8 +24,9 @@ class AIPlayer < Player
 
   def guess_code
     if @previous_guesses.empty?
-      UI.display_guess(@possibilities[7])
-      return @possibilities[7]
+      first_guess = @possibilities[7].nil? ? @possibilities[0] : @possibilities[7]
+      UI.display_guess(first_guess)
+      return first_guess
     end
 
     adjust_possibilities(@previous_guesses[-1], @previous_hits[-1])
